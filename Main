@@ -13,3 +13,45 @@ data_dictionary.md
 week01.tex this file
 notebooks/
 01_explore.ipynb scratch work, not the deliverable
+
+# src/load.py
+from pathlib import Path
+import pandas as pd
+RAW = Path("data/raw")
+INTERIM = Path("data/interim")
+TZ = "Asia/Kolkata" # confirm this before relying on it
+TIMESTAMP_COLS = [
+"call_time", "call_assigned_dt", "departured_dt",
+"scene_arrival_dt", "scene_departure_dt",
+"hospital_arrival_dt", "hospital_departure_dt",
+"back2base_dt", "closed_date",
+]
+def normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
+"""snake_case, strip whitespace, no duplicate names."""
+...
+def load_dispatch(path: Path) -> pd.DataFrame:
+"""One state-year file. Parse timestamps to tz-aware. Do not drop rows."""
+...
+def load_vehicles(path: Path) -> pd.DataFrame: ...
+def load_hospitals(path: Path) -> pd.DataFrame: ...
+def load_offroad(path: Path) -> pd.DataFrame: ...
+def build_cases(dispatch, vehicles, hospitals) -> pd.DataFrame:
+"""Left joins onto dispatch. Row count must not change.
+Add a boolean flag column per join recording whether it matched."""
+...
+def main():
+...
+# print the reconciliation summary, then assert conservation
+# write INTERIM / "cases.parquet"
+if __name__ == "__main__":
+main()
+
+# src/checks.py
+def check_row_conservation(n_in: int, n_out: int, flagged: dict) -> None:
+"""Assert n_out == n_in. Nothing is dropped in week 1."""
+def check_join_rates(df) -> pd.DataFrame:
+"""One row per join: key, n_left, n_matched, match_rate, 3 example misses."""
+def check_missingness_by_month(df) -> pd.DataFrame:
+"""Columns x months, fill rate in each cell."""
+def check_offroad_overlaps(cases, offroad) -> pd.DataFrame:
+"""Cases dispatched to a vehicle recorded as off-road at that time."""
