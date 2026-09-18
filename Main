@@ -1,0 +1,15 @@
+ems-twin/
+README.md how to reproduce everything, two commands
+log.md append-only session log, see below
+.gitignore must include data/raw/
+data/
+raw/ never committed, never edited
+interim/ generated, not committed
+src/
+load.py entry point for this week
+checks.py reconciliation checks
+docs/
+data_dictionary.md
+week01.tex this file
+notebooks/
+01_explore.ipynb scratch work, not the deliverable
